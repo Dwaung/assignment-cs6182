@@ -3,9 +3,15 @@ import { Post } from '../db/models/posts.js'
 
 
 
-export async function createPost( userId, { title, contents, tags }) {
-  const post = new Post({ title, author: userId, contents, tags })
-  return await post.save()
+export async function createPost({ title, author, contents, tags = [] }) {
+    const post = new Post({
+        title,
+        author,
+        contents,
+        tags
+    })
+
+    return await post.save()
 }
 
 async function listPosts(
