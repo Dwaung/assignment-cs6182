@@ -14,6 +14,6 @@ try {
         console.info(`Express server running on port ${PORT}`)
     })
 } catch (error) {
-    console.error('Failed to start backend:', error)
+    console.error('Database connection failed:', error)
     process.exit(1)
 }
