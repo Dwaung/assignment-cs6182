@@ -2,14 +2,9 @@ import mongoose from 'mongoose'
 
 export function initDatabase() {
     const DATABASE_URL = process.env.DATABASE_URL
-
-    if (!DATABASE_URL) {
-        throw new Error('DATABASE_URL environment variable is missing')
-    }
-
     mongoose.connection.on('open', () => {
-        console.info('Successfully connected to MongoDB')
+        console.info('Successfully connected to database:', DATABASE_URL)
     })
-
-    return mongoose.connect(DATABASE_URL)
+    const connection = mongoose.connect(DATABASE_URL)
+    return connection
 }
