@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { describe, expect, test, beforeEach } from '@jest/globals'
+import { describe, expect, test, beforeEach, beforeAll } from '@jest/globals'
 import { 
     createPost,
   listAllPosts,
@@ -8,6 +8,7 @@ import {
   getPostById,
   updatePost,
   deletePost,
+  createUser 
 
 } from '../services/posts.js'
 import { Post } from '../db/models/posts.js'
