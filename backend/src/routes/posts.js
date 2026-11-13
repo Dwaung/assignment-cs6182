@@ -1,3 +1,4 @@
+
 import {
     listAllPosts,
     listPostsByAuthor,
@@ -8,7 +9,10 @@ import {
     createPost,
 } from '../services/posts.js'
 
+import { requireAuth } from '../middleware/jwt.js'
+
 export function postsRoutes(app) {
+
     // GET all posts, or filter by author/tag
     app.get('/api/v1/posts', async (req, res) => {
         const { sortBy, sortOrder, author, tag } = req.query
@@ -33,7 +37,7 @@ export function postsRoutes(app) {
     })
 
     // GET post by ID
-    app.get('/api/v1/posts/:id', async (req, res) => {
+    app.get('/api/v1/posts/:id', requireAuth, async (req, res) => {
         try {
             const post = await getPostById(req.params.id)
 
@@ -49,11 +53,11 @@ export function postsRoutes(app) {
     })
 
     // CREATE post
-    app.post('/api/v1/posts', async (req, res) => {
+    app.post('/api/v1/posts', requireAuth, async (req, res) => {
         try {
             console.log('Received post:', req.body)
 
-            const post = await createPost(req.body)
+            const post = await createPost(req.auth.sub, req.body)
 
             return res.status(201).json(post)
         } catch (err) {
@@ -67,9 +71,9 @@ export function postsRoutes(app) {
     })
 
     // UPDATE post
-    app.patch('/api/v1/posts/:id', async (req, res) => {
+    app.patch('/api/v1/posts/:id', requireAuth, async (req, res) => {
         try {
-            const post = await updatePost(req.params.id, req.body)
+            const post = await updatePost(req.auth.sub, req.params.id, req.body)
 
             if (!post) {
                 return res.status(404).end()
@@ -83,9 +87,9 @@ export function postsRoutes(app) {
     })
 
     // DELETE post
-    app.delete('/api/v1/posts/:id', async (req, res) => {
+    app.delete('/api/v1/posts/:id', requireAuth, async (req, res) => {
         try {
-            const { deletedCount } = await deletePost(req.params.id)
+            const { deletedCount } = await deletePost(req.auth.sub, req.params.id)
 
             if (deletedCount === 0) {
                 return res.sendStatus(404)
