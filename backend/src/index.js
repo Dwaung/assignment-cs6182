@@ -1,14 +1,20 @@
-import dotenv from 'dotenv'
 
+import dotenv from 'dotenv'
 
 dotenv.config()
 
 import { initDatabase } from './db/init.js'
-
 import { app } from './app.js'
-const PORT = process.env.PORT
 
-await initDatabase()
-app.listen(PORT)
+const PORT = process.env.PORT || 8080
 
-console.info(`Express server running on http://localhost:${PORT}`)
+try {
+  await initDatabase()
+
+  app.listen(PORT, '0.0.0.0', () => {
+    console.info(`Express server running on port ${PORT}`)
+  })
+} catch (error) {
+  console.error('Failed to start backend:', error)
+  process.exit(1)
+}
