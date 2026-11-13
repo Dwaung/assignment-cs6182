@@ -18,7 +18,7 @@
   "rules": {
     "no-console": "off",
     "no-unused-vars": "error",
-    "semi": ["error", "off"]
+    "semi": "off"
   },
   "settings": {
     "react": {
