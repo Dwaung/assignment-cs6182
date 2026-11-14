@@ -1,5 +1,5 @@
 
-name: Deploy Blog Backend
+name: Blog Backend CI
 
 on:
   push:
