@@ -1,3 +1,4 @@
+
 const API_URL = `${import.meta.env.VITE_BACKEND_URL}`
 
 export const getPosts = async (queryParams) => {
@@ -7,6 +8,20 @@ export const getPosts = async (queryParams) => {
 
   if (!res.ok) {
     throw new Error(`Failed to fetch posts: ${res.status}`)
+  }
+
+  return await res.json()
+}
+
+export const getPostById = async (postId, token) => {
+  const res = await fetch(`${API_URL}/posts/${postId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+
+  if (!res.ok) {
+    throw new Error(`Failed to retrieve post: ${res.status}`)
   }
 
   return await res.json()
